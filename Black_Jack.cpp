@@ -6,21 +6,130 @@
 using namespace std;
 int dealernumber=0,usernumber=0,tdealer,tuser;
 vector<int> card={2,3,4,5,6,7,8,9,10,11};
-class hand{
+class hand;
+class Game;
+class Screen;
+class logindetails{
+    public:
+        int Login(){
+		 // user name check weather exist or not;
+        // if not add if yes go for passowrd or say already exist
+        fstream  fil;
+        
+        fil.open("logindetains.txt",ios::out|ios::in);
+        
+        
+        string username,password;
+
+        string checkusername,checkpassword;
+        cout<<"\nENTER USERNAME\t";
+        cin>>username;
+        cout<<"\nENTER PASSWORD\t";
+        cin>>password;
+        int t=1;
+        int flag=1;//1 for not getiing user name
+        while(getline(fil,checkusername)){
+            if(t==1){
+                if(checkusername==username){
+                    // flag=0;
+                    getline(fil,checkpassword);
+                    if(password==checkpassword){
+                        cout<<"\tPassowrd matched\n";
+                        flag=0;
+                        break;
+                    }
+                    break;
+                    t=2;
+                }
+                else{
+                    t=1;
+                }
+            }
+            else{
+                continue;
+            }
+        }
+        fil.close();
+        if(flag==0){
+            cout<<"\t username and password matched \n";
+            // WelcomeScreen();
+        }
+        else{
+            cout<<"\nUSERNAME NOT EXIST\nPlease sign up\n";
+            signup();
+            // clrscr();
+            // system("CLS");
+        }
+        return 0;
+
+    }
+
+    int signup(){
+		fstream fi;
+        fi.open("logindetains.txt",ios::out | ios::in | ios::app);
+        string username,password,cu;
+        cout<<"\nENTER THE USER NAME\t";
+        cin>>username;
+        cout<<"\nENTER THE PASSWORD\t";
+        cin>>password;
+        int t=1;
+        int flag=1;
+        while(getline(fi,cu)){
+            if(t==1){
+                if(username==cu){
+                    flag=0;//username same at flag =0
+                    break;
+                }
+                t=2;
+            }
+            else{
+                t=1;
+            }
+        }
+
+        fi.close();
+
+        fi.open("logindetains.txt",ios::out | ios::app);
+
+
+
+        if(flag==1){
+            fi<<"\n"<<username<<"\n";
+            fi<<password;
+            fi.close();
+            cout<<"\n\nUSER CREATED\n\n";
+            fstream makefileuser;
+            makefileuser.open(username.c_str());
+            makefileuser<<1400;
+            makefileuser.close();
+        }
+        else{
+           fi.close();
+           cout<<"\nUSERNAME ALREADY EXIST\n\n";
+           
+        }
+        // WelcomeScreen()
+        return 0;
+    }
+};
+class hand:public logindetails{
     public:
     // const int b=0;
     int Dealers_Hand(int a){
         // int t;
         if(a==1){
         cout<<"\n______________________________________________________________________________________________________________\n";
-
+        dealernumber=0;
+        usernumber=0;
         // cout<<"\n*************************************************************************************************************\n";
         cout<<"\n\n\t\t\t\t\t\t\t\tThis is dealers Hand\t";
         tdealer=rand()%10;
         dealernumber+=card[tdealer];
         if(tdealer+dealernumber<=17){
             cout<<"\t"<<card[tdealer];
+            
         }
+        cout<<"!";
         return 0;
         }
         else{
@@ -72,37 +181,50 @@ class Game:public hand{
     public:
     
     
-    void Home_game(){
+    int Home_game(){
         cout<<"\n_____________________________________________________________________________________________________________\n";
         cout<<"\n______________________________________________________________________________________________________________\n";
         
         // cout<<"\n*************************************************************************************************************\n";
         cout<<"\nYou have 1400 Karmas\n";
-
+        int flag=0;
+        while(flag==0){
         // cout<<"\nDealers hand\n";
         Dealers_Hand(1);
 
         UserHand();
-
+        
         if(usernumber>dealernumber && usernumber<=21 )
           { 
               
 
               cout<<"\n\n\t\t\t\t\t\t\t\tYOU won!!!";
               Karmas+=20;
+            //   cout<<"\n\n\t\t\t\t\t\t\t\tIF YOU WANT TO UPDATE YOUR KARMAS LOGIN OR SIGHUP";
               cout<<"\n\n\t\t\t\t\t\t\t\tYour karmas are \t"<<Karmas;
+              cout<<"\nWANT TO CONTINUE IF YES TYPE 0 ELSE 1\t";
+              cin>>flag;
+              usernumber=0;
+              dealernumber=0;
+
+              
+              
           }
         else
           {
               cout<<"\n\n\t\t\t\t\t\t\t\tYOU Lose!!";  
               Karmas-=50;
               cout<<"\n\n\t\t\t\t\t\t\t\tYour karmas are \t"<<Karmas;
-
+              cout<<"\nWANT TO CONTINUE IF YES TYPE 0 ELSE 1\t";
+              cin>>flag;
           }
 
         cout<<"\n_____________________________________________________________________________________________________________\n";
         cout<<"\n______________________________________________________________________________________________________________\n";
         
+    }
+    return 0;
+
     }
     
 
@@ -113,42 +235,10 @@ class Screen:public Game{
 
     public:
 
-    void WelcomeScreen(){
-  int choice;
-cout<<"\n\n\t\t\t\t\t\t\tWelcome to BLACKJACK game!\n\n      "<<endl;
-cout<<"\t\t\t------------------------------------------------------------------------------------------"<<endl;
-cout<<"\t\t\t------------------------------------------------------------------------------------------"<<endl;
-cout<<"\t\t\t******************************************************************************************"<<endl;
-cout<<"\t\t\t**\t\t\t\t\t1-Play Game\t\t\t\t\t**"<<endl<<"\t\t\t**\t\t\t\t\t2-Rules and Instructions\t\t\t**"<<endl<<"\t\t\t**\t\t\t\t\t3-Login\t\t\t\t\t\t**"<<endl<<"\t\t\t**\t\t\t\t\t4-Signup\t\t\t\t\t**"<<endl;
-cout<<"\t\t\t******************************************************************************************"<<endl;
-cout<<"\t\t\t------------------------------------------------------------------------------------------"<<endl;
-cout<<"\t\t\t------------------------------------------------------------------------------------------"<<endl;
-cout<<"Enter your choice"<<endl;
-cin>>choice;
-if(choice==1)
-{
-
-}
-if(choice==2)
-{
-    Rules();
-}
-if(choice==3)
-{
-
-}
-if(choice==4)
-{
-
-}
-    }
-
-    void MainGame(){
-
-    }
+   
 
     void Rules(){
-cout << "__________________________________________*" << endl;
+            cout << "__________________________________________*" << endl;
 			cout << "# How to play the game of Blackjack. " << endl;
 			cout << "\n\t There are two players: a dealer, ";
 			cout << "played by a computer, ";
@@ -232,107 +322,50 @@ cout << "__________________________________________*" << endl;
 			cout << "and 1~5 (size of the bet, number of decks).\n";
 			cout << "__________________________________________*" << endl;
 			cout << endl;
+            cout<<"\nPRESS 1 FOR GOING BACK\n";
+            int a;
+            cin>>a;
+            if(a==1)
+            WelcomeScreen();
     }
 
-    void Login(){
-		 // user name check weather exist or not;
-        // if not add if yes go for passowrd or say already exist
-        fstream  fil;
-        
-        fil.open("logindetains.txt",ios::out|ios::in);
-        
-        
-        string username,password;
 
-        string checkusername,checkpassword;
-        cout<<"\nENTER USERNAME\t";
-        cin>>username;
-        cout<<"\nENTER PASSWORD\t";
-        cin>>password;
-        int t=1;
-        int flag=1;//1 for not getiing user name
-        while(getline(fil,checkusername)){
-            if(t==1){
-                if(checkusername==username){
-                    // flag=0;
-                    getline(fil,checkpassword);
-                    if(password==checkpassword){
-                        cout<<"\tPassowrd matched\n";
-                        flag=0;
-                        break;
-                    }
-                    break;
-                    t=2;
-                }
-                else{
-                    t=1;
-                }
-            }
-            else{
-                continue;
-            }
-        }
-        fil.close();
-        if(flag==0){
-            cout<<"\t username and password matched \n";
-        }
-        else{
-            cout<<"\nUSERNAME NOT EXIST\nPlease sign up\n";
-            signup();
-            // clrscr();
-            // system("CLS");
-        }
+    
 
+    void WelcomeScreen(){
+        int choice;
+        cout<<"\n\n\t\t\t\t\t\t\tWelcome to BLACKJACK game!\n\n      "<<endl;
+        cout<<"\t\t\t------------------------------------------------------------------------------------------"<<endl;
+        cout<<"\t\t\t------------------------------------------------------------------------------------------"<<endl;
+        cout<<"\t\t\t******************************************************************************************"<<endl;
+        cout<<"\t\t\t**\t\t\t\t\t1-Play Game\t\t\t\t\t**"<<endl<<"\t\t\t**\t\t\t\t\t2-Rules and Instructions\t\t\t**"<<endl<<"\t\t\t**\t\t\t\t\t3-Login\t\t\t\t\t\t**"<<endl<<"\t\t\t**\t\t\t\t\t4-Signup\t\t\t\t\t**"<<endl;
+        cout<<"\t\t\t******************************************************************************************"<<endl;
+        cout<<"\t\t\t------------------------------------------------------------------------------------------"<<endl;
+        cout<<"\t\t\t------------------------------------------------------------------------------------------"<<endl;
+        cout<<"Enter your choice"<<endl;
+        cin>>choice;
+        if(choice==1)
+        {
+            Home_game();
+            WelcomeScreen();
+        }
+        else if(choice==2)
+        {
+            Rules();
+        }
+        else if(choice==3)
+        { 
+            Login();
+            WelcomeScreen();
 
+        }
+        else if(choice==4)
+        {
+            signup();   
+            WelcomeScreen();
+
+        }   
     }
-
-    void signup(){
-		fstream fi;
-        fi.open("logindetains.txt",ios::out | ios::in | ios::app);
-        string username,password,cu;
-        cout<<"\nENTER THE USER NAME\t";
-        cin>>username;
-        cout<<"\nENTER THE PASSWORD\t";
-        cin>>password;
-        int t=1;
-        int flag=1;
-        while(getline(fi,cu)){
-            if(t==1){
-                if(username==cu){
-                    flag=0;//username same at flag =0
-                    break;
-                }
-                t=2;
-            }
-            else{
-                t=1;
-            }
-        }
-
-        fi.close();
-
-        fi.open("logindetains.txt",ios::out | ios::app);
-
-
-
-        if(flag==1){
-            fi<<"\n"<<username<<"\n";
-            fi<<password;
-            fi.close();
-            cout<<"\n\nUSER CREATED\n\n";
-            fstream makefileuser;
-            makefileuser.open(username.c_str());
-            makefileuser<<1400;
-            makefileuser.close();
-        }
-        else{
-           fi.close();
-           cout<<"\nUSERNAME ALREADY EXIST\n\n";
-           
-        }
-        WelcomeScreen();
-    }
-
     
 
 };
