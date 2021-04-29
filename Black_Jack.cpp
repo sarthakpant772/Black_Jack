@@ -1,6 +1,114 @@
 #include<iostream>
+#include<vector>
+#include<fstream>
+#include<random>
+#include<stdlib.h>
 using namespace std;
-class Game{
+int dealernumber=0,usernumber=0,tdealer,tuser;
+vector<int> card={2,3,4,5,6,7,8,9,10,11};
+class hand{
+    public:
+    // const int b=0;
+    int Dealers_Hand(int a){
+        // int t;
+        if(a==1){
+        cout<<"\n______________________________________________________________________________________________________________\n";
+
+        // cout<<"\n*************************************************************************************************************\n";
+        cout<<"\n\n\t\t\t\t\t\t\t\tThis is dealers Hand\t";
+        tdealer=rand()%10;
+        dealernumber+=card[tdealer];
+        if(tdealer+dealernumber<=17){
+            cout<<"\t"<<card[tdealer];
+        }
+        return 0;
+        }
+        else{
+            while(dealernumber<=17){
+                 cout<<"\n______________________________________________________________________________________________________________\n";
+              
+               // cout<<"\n*************************************************************************************************************\n";
+                // cout<<"\n*************************************************************************************************************\n";
+                
+                cout<<"\n\t\t\t\t\t\t\t\tThis is dealers Hand\t";
+                tdealer=rand()%10;
+                dealernumber+=card[tdealer];
+                cout<<card[tdealer];
+
+            }
+            return 0;
+        }
+    }
+
+    int UserHand(){
+        cout<<"\n______________________________________________________________________________________________________________\n";
+        // cout<<"\n*************************************************************************************************************\n";
+        cout<<"\n\tThis is user hand\t";
+        tuser=rand()%10;
+        usernumber+=card[tuser];
+        // if(tuser+usernumber<=)
+        cout<<card[tuser];
+        int a;
+        while(usernumber<=21){
+            cout<<"\n\tFor HIT press 1 and for STAND 2\t";
+            cin>>a;
+            if(a==1){
+                tuser=rand()%10;
+                usernumber+=card[tuser];
+                cout<<"\n\tYour new card is \t"<<card[tuser]<<"\n";
+            }
+            else{
+                Dealers_Hand(2);
+                return 0;
+
+            }
+        }
+        return 0;
+    }
+};
+
+class Game:public hand{
+    int Karmas=1400;
+    public:
+    
+    
+    void Home_game(){
+        cout<<"\n_____________________________________________________________________________________________________________\n";
+        cout<<"\n______________________________________________________________________________________________________________\n";
+        
+        // cout<<"\n*************************************************************************************************************\n";
+        cout<<"\nYou have 1400 Karmas\n";
+
+        // cout<<"\nDealers hand\n";
+        Dealers_Hand(1);
+
+        UserHand();
+
+        if(usernumber>dealernumber && usernumber<=21 )
+          { 
+              
+
+              cout<<"\n\n\t\t\t\t\t\t\t\tYOU won!!!";
+              Karmas+=20;
+              cout<<"\n\n\t\t\t\t\t\t\t\tYour karmas are \t"<<Karmas;
+          }
+        else
+          {
+              cout<<"\n\n\t\t\t\t\t\t\t\tYOU Lose!!";  
+              Karmas-=50;
+              cout<<"\n\n\t\t\t\t\t\t\t\tYour karmas are \t"<<Karmas;
+
+          }
+
+        cout<<"\n_____________________________________________________________________________________________________________\n";
+        cout<<"\n______________________________________________________________________________________________________________\n";
+        
+    }
+    
+
+};
+
+class Screen:public Game{
 
 
     public:
@@ -127,15 +235,108 @@ cout << "__________________________________________*" << endl;
     }
 
     void Login(){
+		 // user name check weather exist or not;
+        // if not add if yes go for passowrd or say already exist
+        fstream  fil;
+        
+        fil.open("logindetains.txt",ios::out|ios::in);
+        
+        
+        string username,password;
+
+        string checkusername,checkpassword;
+        cout<<"\nENTER USERNAME\t";
+        cin>>username;
+        cout<<"\nENTER PASSWORD\t";
+        cin>>password;
+        int t=1;
+        int flag=1;//1 for not getiing user name
+        while(getline(fil,checkusername)){
+            if(t==1){
+                if(checkusername==username){
+                    // flag=0;
+                    getline(fil,checkpassword);
+                    if(password==checkpassword){
+                        cout<<"\tPassowrd matched\n";
+                        flag=0;
+                        break;
+                    }
+                    break;
+                    t=2;
+                }
+                else{
+                    t=1;
+                }
+            }
+            else{
+                continue;
+            }
+        }
+        fil.close();
+        if(flag==0){
+            cout<<"\t username and password matched \n";
+        }
+        else{
+            cout<<"\nUSERNAME NOT EXIST\nPlease sign up\n";
+            signup();
+            // clrscr();
+            // system("CLS");
+        }
+
 
     }
 
     void signup(){
+		fstream fi;
+        fi.open("logindetains.txt",ios::out | ios::in | ios::app);
+        string username,password,cu;
+        cout<<"\nENTER THE USER NAME\t";
+        cin>>username;
+        cout<<"\nENTER THE PASSWORD\t";
+        cin>>password;
+        int t=1;
+        int flag=1;
+        while(getline(fi,cu)){
+            if(t==1){
+                if(username==cu){
+                    flag=0;//username same at flag =0
+                    break;
+                }
+                t=2;
+            }
+            else{
+                t=1;
+            }
+        }
 
+        fi.close();
+
+        fi.open("logindetains.txt",ios::out | ios::app);
+
+
+
+        if(flag==1){
+            fi<<"\n"<<username<<"\n";
+            fi<<password;
+            fi.close();
+            cout<<"\n\nUSER CREATED\n\n";
+            fstream makefileuser;
+            makefileuser.open(username.c_str());
+            makefileuser<<1400;
+            makefileuser.close();
+        }
+        else{
+           fi.close();
+           cout<<"\nUSERNAME ALREADY EXIST\n\n";
+           
+        }
+        WelcomeScreen();
     }
+
+    
 
 };
 int main(){
-Game obj;
-obj.WelcomeScreen();
+Screen s;
+s.WelcomeScreen();
 }
