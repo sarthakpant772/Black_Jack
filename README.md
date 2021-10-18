@@ -1,2 +1,2 @@
 # Black_Jack
-Black jack game c++
+Black Jack game c++
