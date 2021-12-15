@@ -332,12 +332,12 @@ class hand:public logindetails{
     int UserHand(int n){
         node* temp=multiuser;
         int t=0;
-        while(t!=n){
+        while(t<n){
             if(temp->quit==false){
                 cout<<"\n______________________________________________________________________________________________________________\n";
                 cout<<"\n*************************************************************************************************************\n";
                 cout<<"\n\tThis is "<<temp->username<<" hand\t";      
-                srand(time(0));
+                // srand(time(0));
 
                 tuser=rand()%10;
                 temp->card_total+=card[tuser];
@@ -364,6 +364,7 @@ class hand:public logindetails{
                     }
                 
             }
+            cout<<"lol";
             temp=temp->next;
         }
         return 0;
@@ -411,11 +412,12 @@ class Game:public hand{
         }
         Dealers_Hand(1);
         UserHand(num);
-        cout<<"notworking1";
+        // cout<<"notworking1";
         Dealers_Hand(2);
         // display(multiuser);
-        cout<<"notworking2";
+        // cout<<"notworking2";
         node* temp=multiuser;
+        int tep=num;
         while(num--){
                 if(temp->card_total >dealernumber && temp->card_total<=21 )
                 { 
@@ -436,22 +438,25 @@ class Game:public hand{
                     cout<<"\n\n\t\t\t\t\t\t\t\t"<<temp->username<<"YOU Lose!!";  
                     temp->karmas=temp->karmas-50;
                     // fil<<Karmas;
-                    cout<<"\n\n\t\t\t\t\t\t\t\tYour karmas are \t"<<Karmas;
+                    cout<<"\n\n\t\t\t\t\t\t\t\tYour karmas are \t"<<temp->karmas;
                     // cout<<"\nWANT TO CONTINUE IF YES TYPE 0 ELSE 1\t";
                     // cin>>flag;
                 }
                 temp=temp->next;
         }
+        // cout<<"lol";
 
                 temp=multiuser;
 
-                while(temp->next!=multiuser){
+                while(tep--){
+                    // cout<<"saing..";
                     fstream fil;
-                    fil.open(username+".txt",ios::out);
+                    fil.open(temp->username+".txt",ios::out | ios::in);
                     fil<<temp->karmas;
                     temp=temp->next;
+                    fil.close();
                 }
-                deletes(multiuser,temp->username);
+                // deletes(multiuser,temp->username);
 
                 
 
