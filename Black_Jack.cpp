@@ -7,7 +7,7 @@
 #include<time.h>
 #include<stdlib.h>
 using namespace std;
-int Karmas=0;
+int Karmas=1400;
 const int MAX=47;
 string username;
 int dealernumber=0,usernumber=0,tdealer,tuser;
@@ -364,7 +364,7 @@ class hand:public logindetails{
                     }
                 
             }
-            cout<<"lol";
+            // cout<<"lol";
             temp=temp->next;
         }
         return 0;
@@ -383,7 +383,7 @@ class Game:public hand{
         // cout<<"\nYou have 1400 Karmas\n";
         // cout<<"Enter userna"
         int num;
-        cout<<"ENTER THE NUMBER OF USER YOU WANT TO PLAY WITH";
+        cout<<"ENTER THE NUMBER OF USER YOU WANT TO PLAY WITH\t";
         cin>>num;
         int flag=0;
 
