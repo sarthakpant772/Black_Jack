@@ -1,19 +1,81 @@
 #include<iostream>
 #include<vector>
 #include<fstream>
+#include <unordered_map>
+#include<map>
 #include<random>
 #include<time.h>
 #include<stdlib.h>
 using namespace std;
 int Karmas=1400;
+const int MAX=47;
 string username;
 int dealernumber=0,usernumber=0,tdealer,tuser;
 vector<int> card={2,3,4,5,6,7,8,9,10,11};
+char alphabet[MAX] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g',
+                          'h', 'i', 'j', 'k', 'l', 'm', 'n',
+                          'o', 'p', 'q', 'r', 's', 't', 'u',
+                          'v', 'w', 'x', 'y', 'z', '1','2','3','4','5','6','7','8','9','0','!','@','#','$','%','^','&','*','/','=','+'};
 class hand;
 class Game;
 class Screen;
 class logindetails{
     public:
+            string getpassowrd(string password){
+                int siz=30;
+                string s="";
+                for(int i=password.size();i<30;++i){
+                    char a=alphabet[rand()%MAX];
+                    // cout<<a;
+                    s=s+a;
+                }
+                return s;
+            }
+
+            string gethashpassword(string passwords){
+                vector<pair<char,string>> hash_map(26);
+                // for(int i=0;i<26;++i)
+                unordered_map<char,string> umap;
+                umap['a']="01";
+
+
+                // hash_map.push_back(make_pair('a',"01"));
+                // hash_map.push_back(make_pair('b',"02"));
+                // hash_map.push_back(make_pair('c',"03"));
+                // hash_map.push_back(make_pair('d',"04"));
+                // hash_map.push_back(make_pair('e',"05"));
+                // hash_map.push_back(make_pair('f',"06"));
+                // hash_map.push_back(make_pair('g',"07"));
+                // hash_map.push_back(make_pair('h',"08"));
+                // hash_map.push_back(make_pair('i',"09"));
+                // hash_map.push_back(make_pair('j',"10"));
+                // hash_map.push_back(make_pair('k',"11"));
+                // hash_map.push_back(make_pair('l',"12"));
+                // hash_map.push_back(make_pair('m',"13"));
+                // hash_map.push_back(make_pair('n',"14"));
+                // hash_map.push_back(make_pair('o',"15"));
+                // hash_map.push_back(make_pair('p',"16"));
+                // hash_map.push_back(make_pair('q',"17"));
+                // hash_map.push_back(make_pair('r',"18"));
+                // hash_map.push_back(make_pair('s',"19"));
+                // hash_map.push_back(make_pair('t',"20"));
+                // hash_map.push_back(make_pair('u',"21"));
+                // hash_map.push_back(make_pair('v',"22"));
+                // hash_map.push_back(make_pair('w',"23"));
+                // hash_map.push_back(make_pair('x',"24"));
+                // hash_map.push_back(make_pair('y',"25"));
+                // hash_map.push_back(make_pair('z',"26"));
+                string g="";
+                int n= passwords.size();
+                for(int i=0;i<n;++i){
+                    string x=umap[passwords[i]];
+                    g=g+x;
+                    // cout<<"check";
+                } 
+                // cout<<"i was here";
+                cout<<g;
+                return g;           
+            }
         int Login(){
 		 // user name check weather exist or not;
         // if not add if yes go for passowrd or say already exist
@@ -145,7 +207,15 @@ class logindetails{
 
         if(flag==1){
             fi<<"\n"<<username<<"\n";
-            fi<<password;
+            // fi<<password;
+
+            string support_password=getpassowrd(password);
+            // cout<<support_password.size();
+            fi<<support_password<<"\n";
+            string  password_temp=gethashpassword(password);
+            // cout<<password_temp;
+            string final_password=password_temp+support_password;
+            fi<<final_password;
             fi.close();
             cout<<"\n\t\t\t\t\t\t\t\tUSER CREATED\n\n";
             cout<<"\t\t\t____________________________________________________________________________________________\n";
@@ -159,8 +229,6 @@ class logindetails{
            fi.close();
            cout<<"\n\t\t\t\t\t\t\t\tUSERNAME OR PASSWORD INCORRECT\n\n";
         cout<<"\t\t\t____________________________________________________________________________________________\n";
-
-           
         }
         // WelcomeScreen()
         return 0;
