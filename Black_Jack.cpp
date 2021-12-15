@@ -24,7 +24,7 @@ class logindetails{
             string getpassowrd(string password){
                 int siz=30;
                 string s="";
-                for(int i=password.size()*2;i<30;++i){
+                for(int i=password.size()*4;i<60;++i){
                     char a=alphabet[rand()%MAX];
                     // cout<<a;
                     s=s+a;
@@ -36,32 +36,32 @@ class logindetails{
                 vector<pair<char,string>> hash_map(26);
                 // for(int i=0;i<26;++i)
                 unordered_map<char,string> umap;
-                umap['a']="01";
-                umap['b']="02";
-                umap['c']="03";
-                umap['d']="04";
-                umap['e']="05";
-                umap['f']="06";
-                umap['g']="07";
-                umap['h']="08";
-                umap['i']="09";
-                umap['j']="10";
-                umap['k']="11";
-                umap['l']="12";
-                umap['m']="13";
-                umap['n']="14";
-                umap['o']="15";
-                umap['p']="16";
-                umap['q']="17";
-                umap['r']="18";
-                umap['s']="19";
-                umap['t']="20";
-                umap['u']="21";
-                umap['v']="22";
-                umap['w']="23";
-                umap['x']="24";
-                umap['y']="25";
-                umap['z']="26";
+                umap['a']="!!01";
+                umap['b']="@@02";
+                umap['c']="##03";
+                umap['d']="$$04";
+                umap['e']="^^05";
+                umap['f']="&&06";
+                umap['g']="**07";
+                umap['h']="((08";
+                umap['i']="))09";
+                umap['j']="!@10";
+                umap['k']="!#11";
+                umap['l']="!%12";
+                umap['m']="!^13";
+                umap['n']="!&14";
+                umap['o']="!*15";
+                umap['p']="!)16";
+                umap['q']="@#17";
+                umap['r']="@*18";
+                umap['s']="@)19";
+                umap['t']="#(20";
+                umap['u']="$(21";
+                umap['v']="$&22";
+                umap['w']="$#23";
+                umap['x']="$@24";
+                umap['y']="$^25";
+                umap['z']="$(26";
                 string g="";
                 int n= passwords.size();
                 for(int i=0;i<n;++i){
@@ -70,7 +70,7 @@ class logindetails{
                     // cout<<"check";
                 } 
                 // cout<<"i was here";
-                cout<<g;
+                // cout<<g;
                 return g;           
             }
         int Login(){
