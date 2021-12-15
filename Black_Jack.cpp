@@ -24,7 +24,7 @@ class logindetails{
             string getpassowrd(string password){
                 int siz=30;
                 string s="";
-                for(int i=password.size();i<30;++i){
+                for(int i=password.size()*2;i<30;++i){
                     char a=alphabet[rand()%MAX];
                     // cout<<a;
                     s=s+a;
@@ -37,34 +37,31 @@ class logindetails{
                 // for(int i=0;i<26;++i)
                 unordered_map<char,string> umap;
                 umap['a']="01";
-
-
-                // hash_map.push_back(make_pair('a',"01"));
-                // hash_map.push_back(make_pair('b',"02"));
-                // hash_map.push_back(make_pair('c',"03"));
-                // hash_map.push_back(make_pair('d',"04"));
-                // hash_map.push_back(make_pair('e',"05"));
-                // hash_map.push_back(make_pair('f',"06"));
-                // hash_map.push_back(make_pair('g',"07"));
-                // hash_map.push_back(make_pair('h',"08"));
-                // hash_map.push_back(make_pair('i',"09"));
-                // hash_map.push_back(make_pair('j',"10"));
-                // hash_map.push_back(make_pair('k',"11"));
-                // hash_map.push_back(make_pair('l',"12"));
-                // hash_map.push_back(make_pair('m',"13"));
-                // hash_map.push_back(make_pair('n',"14"));
-                // hash_map.push_back(make_pair('o',"15"));
-                // hash_map.push_back(make_pair('p',"16"));
-                // hash_map.push_back(make_pair('q',"17"));
-                // hash_map.push_back(make_pair('r',"18"));
-                // hash_map.push_back(make_pair('s',"19"));
-                // hash_map.push_back(make_pair('t',"20"));
-                // hash_map.push_back(make_pair('u',"21"));
-                // hash_map.push_back(make_pair('v',"22"));
-                // hash_map.push_back(make_pair('w',"23"));
-                // hash_map.push_back(make_pair('x',"24"));
-                // hash_map.push_back(make_pair('y',"25"));
-                // hash_map.push_back(make_pair('z',"26"));
+                umap['b']="02";
+                umap['c']="03";
+                umap['d']="04";
+                umap['e']="05";
+                umap['f']="06";
+                umap['g']="07";
+                umap['h']="08";
+                umap['i']="09";
+                umap['j']="10";
+                umap['k']="11";
+                umap['l']="12";
+                umap['m']="13";
+                umap['n']="14";
+                umap['o']="15";
+                umap['p']="16";
+                umap['q']="17";
+                umap['r']="18";
+                umap['s']="19";
+                umap['t']="20";
+                umap['u']="21";
+                umap['v']="22";
+                umap['w']="23";
+                umap['x']="24";
+                umap['y']="25";
+                umap['z']="26";
                 string g="";
                 int n= passwords.size();
                 for(int i=0;i<n;++i){
@@ -104,20 +101,26 @@ class logindetails{
         int t=1;
         int flag=1;//1 for not getiing user name
         while(getline(fil,checkusername)){
-            if(t==1){
+            if(t%3==1){
                 if(checkusername==username){
                     // flag=0;
+                    string x="";
+                    getline(fil,x);
                     getline(fil,checkpassword);
+                    // string 
+                    password=gethashpassword(password);
+                    password+=x;
                     if(password==checkpassword){
                         // cout<<"\tPassowrd matched\n";
                         flag=0;
                         break;
                     }
+                    
+                    t+=2;
                     break;
-                    t=2;
                 }
                 else{
-                    t=1;
+                    t+=3;
                 }
             }
             else{
