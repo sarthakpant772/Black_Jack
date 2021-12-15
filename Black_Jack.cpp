@@ -7,7 +7,7 @@
 #include<time.h>
 #include<stdlib.h>
 using namespace std;
-int Karmas=1400;
+int Karmas=0;
 const int MAX=47;
 string username;
 int dealernumber=0,usernumber=0,tdealer,tuser;
@@ -16,6 +16,58 @@ char alphabet[MAX] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g',
                           'h', 'i', 'j', 'k', 'l', 'm', 'n',
                           'o', 'p', 'q', 'r', 's', 't', 'u',
                           'v', 'w', 'x', 'y', 'z', '1','2','3','4','5','6','7','8','9','0','!','@','#','$','%','^','&','*','/','=','+'};
+
+class node{
+    public:
+    node* next;
+    int karmas;
+    string username;
+    bool quit;
+    int card_total;
+    node(string user,int kar, bool qu,int card){
+        next=NULL;
+        karmas=kar;
+        username=user;
+        quit=qu;
+        card_total=card;
+    }
+};
+
+void insert(node* &head,string user,int kar, bool qu,int card){
+    node* temp= new node(user,kar, qu,card);
+    if(head==NULL){
+        temp->next=temp;
+        head=temp;
+        return;
+    }
+    node* t=head;
+    while(t->next!=head){
+        t=t->next;
+    }
+    t->next=temp;
+    temp->next=head;
+    head=temp;
+}
+
+void deletes(node* &head,string name){
+    node* temp=head;
+    // node* a=NULL;
+    while(temp->next->username==name){
+        temp=temp->next;
+    }
+    node* t=temp->next;
+    temp->next=t->next;
+    free(t);
+}
+void display(node* head){
+    node* temp=NULL;
+    while(temp->next!=head){
+        cout<<temp->username<<" ";
+    }
+}
+
+node* multiuser=NULL;
+
 class hand;
 class Game;
 class Screen;
@@ -277,32 +329,42 @@ class hand:public logindetails{
         }
     }
 
-    int UserHand(){
-        cout<<"\n______________________________________________________________________________________________________________\n";
-        // cout<<"\n*************************************************************************************************************\n";
-        cout<<"\n\tThis is user hand\t";      
-        // srand(time(0));
-
-        tuser=rand()%10;
-        usernumber+=card[tuser];
-        // if(tuser+usernumber<=)
-        cout<<card[tuser];
-        int a;
-        while(usernumber<=21){
-            cout<<"\n\tFor HIT press 1 and for STAND 2\t";
-            cin>>a;
-            if(a==1){
-                // srand(time(0));
+    int UserHand(int n){
+        node* temp=multiuser;
+        int t=0;
+        while(t!=n){
+            if(temp->quit==false){
+                cout<<"\n______________________________________________________________________________________________________________\n";
+                cout<<"\n*************************************************************************************************************\n";
+                cout<<"\n\tThis is "<<temp->username<<" hand\t";      
+                srand(time(0));
 
                 tuser=rand()%10;
-                usernumber+=card[tuser];
+                temp->card_total+=card[tuser];
+                // temp->card_total=usernumber;
+                
                 cout<<"\n\tYour new card is \t"<<card[tuser]<<"\n";
-            }
-            else{
-                Dealers_Hand(2);
-                return 0;
+                cout<<"\n\tYour  previous total was \t"<<temp->card_total-card[tuser]<<"\n";
 
+                // cout<<"\n\tYour total card is \t"<<temp->card_total<<"\n";
+                
+                
+                int a;
+                
+                cout<<"\n"<<temp->username<<"\tHIT press 1 and for STAND 2\t";
+                    cin>>a;
+                    if(a!=1){
+                        // srand(time(0))
+                        temp->quit=true;
+                        t++;
+                    }
+                    if(temp->card_total>21){
+                        temp->quit=true;
+                        t++;
+                    }
+                
             }
+            temp=temp->next;
         }
         return 0;
     }
@@ -319,58 +381,86 @@ class Game:public hand{
         // cout<<"\n*************************************************************************************************************\n";
         // cout<<"\nYou have 1400 Karmas\n";
         // cout<<"Enter userna"
-        Login();
-        cout<<"\n___________________________________________________________________________________________________________________________\n";
-        cout<<"\n___________________________________________________________________________________________________________________________\n";
-        fstream fil;
-        fil.open(username+".txt",ios::out);
-        // if(fil.is_open()){
-        //     cout<<"\n opened";
-        // }
-        // else
-        // cout<<"\nnot opened";
+        int num;
+        cout<<"ENTER THE NUMBER OF USER YOU WANT TO PLAY WITH";
+        cin>>num;
         int flag=0;
-        while(flag==0){
-        // cout<<"\nDealers hand\n";
-        cout<<"\nyour current karmas are\t"<<Karmas;
-        if(Karmas==0){
-            cout<<"\nYOUR KARMAS ARE 0 SO YOU ARE REQUESTED TO CONTACT ONE OF OUR DEV AND PAY THEM 1Cr(negotiable) TO MAKE IT AGAIN 1400 BOOMER!!!!\n";
-            return 0;
+
+        for(int i=0;i<num;++i){
+            Login();
+            cout<<"\n___________________________________________________________________________________________________________________________\n";
+            cout<<"\n___________________________________________________________________________________________________________________________\n";
+            fstream fil;
+            fil.open(username+".txt",ios::out);
+            // if(fil.is_open()){
+            //     cout<<"\n opened";
+            // }
+            // else
+            // cout<<"\nnot opened";
+            // while(flag==0){
+            // cout<<"\nDealers hand\n";
+            cout<<"\nyour current karmas are\t"<<Karmas;
+            if(Karmas==0){
+                cout<<"\nYOUR KARMAS ARE 0 SO YOU ARE REQUESTED TO CONTACT ONE OF OUR DEV AND PAY THEM 1Cr(negotiable) TO MAKE IT AGAIN 1400 BOOMER!!!!\n";
+                return 0;
+            }
+            insert(multiuser,username,Karmas,false,0);
+            fil.close();
+
+        // }
         }
         Dealers_Hand(1);
-        UserHand();
+        UserHand(num);
+        cout<<"notworking1";
+        Dealers_Hand(2);
+        // display(multiuser);
+        cout<<"notworking2";
+        node* temp=multiuser;
+        while(num--){
+                if(temp->card_total >dealernumber && temp->card_total<=21 )
+                { 
+                    
+
+                    cout<<"\n\n\t\t\t\t\t\t\t\tYOU won!!!";
+                    temp->karmas=temp->karmas+ 20;
+                    // fil<<Karmas;
+                    //   cout<<"\n\n\t\t\t\t\t\t\t\tIF YOU WANT TO UPDATE YOUR KARMAS LOGIN OR SIGHUP";
+                    cout<<"\n\n\t\t\t\t\t\t\t\t"<<temp->username<<" Your karmas are \t"<<temp->karmas;
+                    // cout<<"\nWANT TO CONTINUE IF YES TYPE 0 ELSE 1\t";
+                    // cin>>flag;
+                    usernumber=0;
+                    dealernumber=0;
+                }
+                else
+                {
+                    cout<<"\n\n\t\t\t\t\t\t\t\t"<<temp->username<<"YOU Lose!!";  
+                    temp->karmas=temp->karmas-50;
+                    // fil<<Karmas;
+                    cout<<"\n\n\t\t\t\t\t\t\t\tYour karmas are \t"<<Karmas;
+                    // cout<<"\nWANT TO CONTINUE IF YES TYPE 0 ELSE 1\t";
+                    // cin>>flag;
+                }
+                temp=temp->next;
+        }
+
+                temp=multiuser;
+
+                while(temp->next!=multiuser){
+                    fstream fil;
+                    fil.open(username+".txt",ios::out);
+                    fil<<temp->karmas;
+                    temp=temp->next;
+                }
+                deletes(multiuser,temp->username);
+
+                
+
+                cout<<"\n___________________________________________________________________________________________________________________________\n";
+                cout<<"\n______________________________________________________________________________________________________________\n";
+                
+            
+
         
-        if(usernumber>dealernumber && usernumber<=21 )
-          { 
-              
-
-              cout<<"\n\n\t\t\t\t\t\t\t\tYOU won!!!";
-              Karmas+=20;
-              fil<<Karmas;
-            //   cout<<"\n\n\t\t\t\t\t\t\t\tIF YOU WANT TO UPDATE YOUR KARMAS LOGIN OR SIGHUP";
-              cout<<"\n\n\t\t\t\t\t\t\t\tYour karmas are \t"<<Karmas;
-              cout<<"\nWANT TO CONTINUE IF YES TYPE 0 ELSE 1\t";
-              cin>>flag;
-              usernumber=0;
-              dealernumber=0;
-
-              
-              
-          }
-        else
-          {
-              cout<<"\n\n\t\t\t\t\t\t\t\tYOU Lose!!";  
-              Karmas-=50;
-              fil<<Karmas;
-              cout<<"\n\n\t\t\t\t\t\t\t\tYour karmas are \t"<<Karmas;
-              cout<<"\nWANT TO CONTINUE IF YES TYPE 0 ELSE 1\t";
-              cin>>flag;
-          }
-
-        cout<<"\n___________________________________________________________________________________________________________________________\n";
-        cout<<"\n______________________________________________________________________________________________________________\n";
-        
-    }
     return 0;
 
     }
