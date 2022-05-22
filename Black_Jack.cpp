@@ -6,6 +6,7 @@
 #include<random>
 #include<time.h>
 #include<stdlib.h>
+#include<bits/stdc++.h>
 using namespace std;
 int Karmas=1400;
 const int MAX=47;
@@ -16,6 +17,9 @@ char alphabet[MAX] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g',
                           'h', 'i', 'j', 'k', 'l', 'm', 'n',
                           'o', 'p', 'q', 'r', 's', 't', 'u',
                           'v', 'w', 'x', 'y', 'z', '1','2','3','4','5','6','7','8','9','0','!','@','#','$','%','^','&','*','/','=','+'};
+
+
+
 
 class node{
     public:
@@ -83,37 +87,40 @@ class logindetails{
                 }
                 return s;
             }
-
+            
             string gethashpassword(string passwords){
                 vector<pair<char,string>> hash_map(26);
                 // for(int i=0;i<26;++i)
                 unordered_map<char,string> umap;
-                umap['a']="!!01";
-                umap['b']="@@02";
-                umap['c']="##03";
-                umap['d']="$$04";
-                umap['e']="^^05";
-                umap['f']="&&06";
-                umap['g']="**07";
-                umap['h']="((08";
-                umap['i']="))09";
-                umap['j']="!@10";
-                umap['k']="!#11";
-                umap['l']="!%12";
-                umap['m']="!^13";
-                umap['n']="!&14";
-                umap['o']="!*15";
-                umap['p']="!)16";
-                umap['q']="@#17";
-                umap['r']="@*18";
-                umap['s']="@)19";
-                umap['t']="#(20";
-                umap['u']="$(21";
-                umap['v']="$&22";
-                umap['w']="$#23";
-                umap['x']="$@24";
-                umap['y']="$^25";
-                umap['z']="$(26";
+                for(int i=0;i<26;++i){
+                    umap[char('a'+1)]=encode[i];
+                }
+                // umap['a']="!!01";
+                // umap['b']="@@02";
+                // umap['c']="##03";
+                // umap['d']="$$04";
+                // umap['e']="^^05";
+                // umap['f']="&&06";
+                // umap['g']="**07";
+                // umap['h']="((08";
+                // umap['i']="))09";
+                // umap['j']="!@10";
+                // umap['k']="!#11";
+                // umap['l']="!%12";
+                // umap['m']="!^13";
+                // umap['n']="!&14";
+                // umap['o']="!*15";
+                // umap['p']="!)16";
+                // umap['q']="@#17";
+                // umap['r']="@*18";
+                // umap['s']="@)19";
+                // umap['t']="#(20";
+                // umap['u']="$(21";
+                // umap['v']="$&22";
+                // umap['w']="$#23";
+                // umap['x']="$@24";
+                // umap['y']="$^25";
+                // umap['z']="$(26";
                 string g="";
                 int n= passwords.size();
                 for(int i=0;i<n;++i){
