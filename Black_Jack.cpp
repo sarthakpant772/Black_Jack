@@ -18,10 +18,55 @@ char alphabet[MAX] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g',
                           'o', 'p', 'q', 'r', 's', 't', 'u',
                           'v', 'w', 'x', 'y', 'z', '1','2','3','4','5','6','7','8','9','0','!','@','#','$','%','^','&','*','/','=','+'};
 
-vector<long long int> frequency ={14810,2715,4943,7874,21912,4200,3693,
+vector<int> frequency ={14810,2715,4943,7874,21912,4200,3693,
                                   10795,13318,188,1257,7253,4761,12666,14003,0
                                   ,3316,205,10977,11450,16587,5246,2019,3819,315,128};
-
+vector<string> encode(26,"");
+struct Node {
+    int f, i;
+    Node *l, *r;
+    Node(int f, char i=-1, Node*l=NULL, Node*r=NULL)
+        : f(f), i(i), l(l), r(r) {
+    }
+};
+struct NodeCmp {
+    bool operator()(const Node* a, const Node* b) {
+        return a->f > b->f;
+    }
+};
+void deleteNodeR(Node* node) {
+    if (!node) return;
+    deleteNodeR(node->l);
+    deleteNodeR(node->r);
+    delete node;
+}
+void printR(Node* n, string& s, vector<string>& R) {
+    if (n->i > -1) R.push_back(s);
+    else {
+        s.push_back('0');
+        printR(n->l, s, R);
+        s.pop_back();
+        s.push_back('1');
+        printR(n->r, s, R);
+        s.pop_back();
+    }
+}
+vector<string> huffmanCodes(string S,vector<int> f,int N)
+{
+    priority_queue<Node*, vector<Node*>, NodeCmp> Q;
+    for (int i = 0; i < N; i++)
+        Q.push(new Node(f[i], i));
+    while (Q.size() > 1) {
+        auto l = Q.top(); Q.pop();
+        auto r = Q.top(); Q.pop();
+        Q.push(new Node(l->f + r->f, -1, l, r));
+    }
+    vector<string> R;
+    string s;
+    printR(Q.top(), s, R);
+    deleteNodeR(Q.top());
+    return R;
+}
 class node{
     public:
     node* next;
@@ -94,36 +139,12 @@ class logindetails{
                 vector<pair<char,string>> hash_map(26);
                 // for(int i=0;i<26;++i)
                 unordered_map<char,string> umap;
+                // cout<<"hello"<<endl;
                 for(int i=0;i<26;++i){
-                    umap[char('a'+1)]=encode[i];
+                    char x= 'a'+i;
+                    umap[x]=encode[i];
+                    cout<<1;
                 }
-                // umap['a']="!!01";
-                // umap['b']="@@02";
-                // umap['c']="##03";
-                // umap['d']="$$04";
-                // umap['e']="^^05";
-                // umap['f']="&&06";
-                // umap['g']="**07";
-                // umap['h']="((08";
-                // umap['i']="))09";
-                // umap['j']="!@10";
-                // umap['k']="!#11";
-                // umap['l']="!%12";
-                // umap['m']="!^13";
-                // umap['n']="!&14";
-                // umap['o']="!*15";
-                // umap['p']="!)16";
-                // umap['q']="@#17";
-                // umap['r']="@*18";
-                // umap['s']="@)19";
-                // umap['t']="#(20";
-                // umap['u']="$(21";
-                // umap['v']="$&22";
-                // umap['w']="$#23";
-                // umap['x']="$@24";
-                // umap['y']="$^25";
-                // umap['z']="$(26";
-
                 string g="";
                 int n= passwords.size();
                 for(int i=0;i<n;++i){
@@ -276,6 +297,7 @@ class logindetails{
 
             string support_password=getpassowrd(password);
             // cout<<support_password.size();
+            support_password=gethashpassword(support_password);
             fi<<support_password<<"\n";
             string  password_temp=gethashpassword(password);
             // cout<<password_temp;
@@ -629,6 +651,10 @@ class Screen:public Game{
 
 };
 int main(){
+encode=huffmanCodes("abcdefghijklmnopqrstuvwxyz",frequency,26);
+// for(auto it : encode){
+//     cout<<it<<endl;
+// }
 Screen s;
 s.WelcomeScreen();
 }
