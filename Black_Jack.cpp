@@ -18,8 +18,9 @@ char alphabet[MAX] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g',
                           'o', 'p', 'q', 'r', 's', 't', 'u',
                           'v', 'w', 'x', 'y', 'z', '1','2','3','4','5','6','7','8','9','0','!','@','#','$','%','^','&','*','/','=','+'};
 
-
-
+vector<long long int> frequency ={14810,2715,4943,7874,21912,4200,3693,
+                                  10795,13318,188,1257,7253,4761,12666,14003,0
+                                  ,3316,205,10977,11450,16587,5246,2019,3819,315,128};
 
 class node{
     public:
@@ -87,6 +88,7 @@ class logindetails{
                 }
                 return s;
             }
+
             
             string gethashpassword(string passwords){
                 vector<pair<char,string>> hash_map(26);
@@ -121,6 +123,7 @@ class logindetails{
                 // umap['x']="$@24";
                 // umap['y']="$^25";
                 // umap['z']="$(26";
+
                 string g="";
                 int n= passwords.size();
                 for(int i=0;i<n;++i){
