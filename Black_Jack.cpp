@@ -16,7 +16,9 @@ char alphabet[MAX] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g',
                           'h', 'i', 'j', 'k', 'l', 'm', 'n',
                           'o', 'p', 'q', 'r', 's', 't', 'u',
                           'v', 'w', 'x', 'y', 'z', '1','2','3','4','5','6','7','8','9','0','!','@','#','$','%','^','&','*','/','=','+'};
-
+vector<long long int> frequency ={14810,2715,4943,7874,21912,4200,3693,
+                                  10795,13318,188,1257,7253,4761,12666,14003,0
+                                  ,3316,205,10977,11450,16587,5246,2019,3819,315,128};
 class node{
     public:
     node* next;
@@ -84,36 +86,36 @@ class logindetails{
                 return s;
             }
 
-            string gethashpassword(string passwords){
-                vector<pair<char,string>> hash_map(26);
+            string gethashpassword(long long int passwords){
+                vector<pair<char,long long int>> hash_map(26);
                 // for(int i=0;i<26;++i)
                 unordered_map<char,string> umap;
-                umap['a']="!!01";
-                umap['b']="@@02";
-                umap['c']="##03";
-                umap['d']="$$04";
-                umap['e']="^^05";
-                umap['f']="&&06";
-                umap['g']="**07";
-                umap['h']="((08";
-                umap['i']="))09";
-                umap['j']="!@10";
-                umap['k']="!#11";
-                umap['l']="!%12";
-                umap['m']="!^13";
-                umap['n']="!&14";
-                umap['o']="!*15";
-                umap['p']="!)16";
-                umap['q']="@#17";
-                umap['r']="@*18";
-                umap['s']="@)19";
-                umap['t']="#(20";
-                umap['u']="$(21";
-                umap['v']="$&22";
-                umap['w']="$#23";
-                umap['x']="$@24";
-                umap['y']="$^25";
-                umap['z']="$(26";
+                umap['a']="14810";
+                umap['b']="2715";
+                umap['c']="4943";
+                umap['d']="7874";
+                umap['e']="21912";
+                umap['f']="4200";
+                umap['g']="3693";
+                umap['h']="10795";
+                umap['i']="13318";
+                umap['j']="188";
+                umap['k']="1257";
+                umap['l']="7253";
+                umap['m']="4761";
+                umap['n']="12666";
+                umap['o']="14003";
+                umap['p']="3316";
+                umap['q']="205";
+                umap['r']="10977";
+                umap['s']="11450";
+                umap['t']="16587";
+                umap['u']="5246";
+                umap['v']="2019";
+                umap['w']="3819";
+                umap['x']="315";
+                umap['y']="3853";
+                umap['z']="128";
                 string g="";
                 int n= passwords.size();
                 for(int i=0;i<n;++i){
