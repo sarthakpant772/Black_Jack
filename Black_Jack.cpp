@@ -16,7 +16,7 @@ vector<int> card={2,3,4,5,6,7,8,9,10,11};
 char alphabet[MAX] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g',
                           'h', 'i', 'j', 'k', 'l', 'm', 'n',
                           'o', 'p', 'q', 'r', 's', 't', 'u',
-                          'v', 'w', 'x', 'y', 'z', '1','2','3','4','5','6','7','8','9','0','!','@','#','$','%','^','&','*','/','=','+'};
+                          'v', 'w', 'x', 'y', 'z'};
 
 vector<int> frequency ={14810,2715,4943,7874,21912,4200,3693,
                                   10795,13318,188,1257,7253,4761,12666,14003,0
@@ -143,7 +143,7 @@ class logindetails{
                 for(int i=0;i<26;++i){
                     char x= 'a'+i;
                     umap[x]=encode[i];
-                    cout<<1;
+                    // cout<<1;
                 }
                 string g="";
                 int n= passwords.size();
@@ -314,7 +314,7 @@ class logindetails{
         }
         else{
            fi.close();
-           cout<<"\n\t\t\t\t\t\t\t\tUSERNAME OR PASSWORD INCORRECT\n\n";
+           cout<<"\n\t\t\t\t\t\t\t\n INCORRECT CREDENTIALS\n\n";
         cout<<"\t\t\t____________________________________________________________________________________________\n";
         }
         // WelcomeScreen()
